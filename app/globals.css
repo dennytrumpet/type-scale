@@ -2,32 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
+:where(html) {
+  --minor-second: 1.067;
+  --major-second: 1.125;
+  --minor-third: 1.2;
+  --major-third: 1.25;
+  --perfect-fourth: 1.333;
+  --aug-fourth: 1.414;
+  --perfect-fifth: 1.5;
+  --golden-ratio: 1.618;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
+  --system-ui: system-ui, sans-serif;
+  --transitional: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
+  --old-style: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052,
+    serif;
+  --humanist: Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans",
+    source-sans-pro, sans-serif;
+  --geometric: Avenir, Montserrat, Corbel, "URW Gothic", source-sans-pro,
+    sans-serif;
+  --classical: Optima, Candara, "Noto Sans", source-sans-pro, sans-serif;
+  --grotesque: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
+    Arial, sans-serif;
+  --monospace: "Nimbus Mono PS", "Courier New", monospace;
+  --code: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+    "DejaVu Sans Mono", monospace;
+  --industrial: Bahnschrift, "DIN Alternate", "Franklin Gothic Medium",
+    "Nimbus Sans Narrow", sans-serif-condensed, sans-serif;
+  --rounded: ui-rounded, "Hiragino Maru Gothic ProN", Quicksand, Comfortaa,
+    Manjari, "Arial Rounded MT", "Arial Rounded MT Bold", Calibri,
+    source-sans-pro, sans-serif;
+  --slab: Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif",
+    "Sitka Small", serif;
+  --antique: Superclarendon, "Bookman Old Style", "URW Bookman", "URW Bookman L",
+    "Georgia Pro", Georgia, serif;
+  --didone: Didot, "Bodoni MT", "Noto Serif Display", "URW Palladio L", P052,
+    Sylfaen, serif;
+  --handwritten: "Segoe Print", "Bradley Hand", Chilanka, TSCu_Comic, casual,
+    cursive;
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+  --font-ratio: 1.25;
+  --root-size: 16;
+  --fluid-size: 1vi;
+  --base-size: calc(var(--root-size) / 16);
+  --leading-display: 1.25;
+  --leading-base: 1.5;
+  --base-family: var(--system-ui);
+  --display-family: var(--system-ui);
+  --code-family: var(--code);
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  --fluid-base: calc(var(--fluid-size) * (var(--font-ratio) - 1));
+
+  --base-rem: var(--base-size) * 1rem;
+
+  /* Inspired by https://modern-fluid-typography.vercel.app/ */
+  /* Inspired by https://type-scale.com/ */
+  --base-fluid: clamp(
+    var(--base-rem) / var(--font-ratio),
+    var(--base-rem) + var(--fluid-base),
+    var(--base-rem) * var(--font-ratio)
+  );
+  --lg-fluid: calc(var(--base-fluid) * var(--font-ratio));
+  --xl-fluid: calc(var(--lg-fluid) * var(--font-ratio));
+  --two-xl-fluid: calc(var(--xl-fluid) * var(--font-ratio));
+  --three-xl-fluid: calc(var(--two-xl-fluid) * var(--font-ratio));
+  --four-xl-fluid: calc(var(--three-xl-fluid) * var(--font-ratio));
+  --five-xl-fluid: calc(var(--four-xl-fluid) * var(--font-ratio));
+  --sm-fluid: calc(var(--base-fluid) / var(--font-ratio));
+  --xs-fluid: calc(var(--sm-fluid) / var(--font-ratio));
 }
