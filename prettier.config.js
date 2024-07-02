@@ -7,7 +7,8 @@ const config = {
   semi: true,
   singleQuote: false,
   arrowParens: "avoid",
-  plugins: ["prettier-plugin-tailwindcss"]
+  plugins: ["prettier-plugin-tailwindcss"],
+  tailwindFunctions: ["classNames", "tv", "clsx", "cva", "tw", "twMerge"]
 };
 
 module.exports = config;
