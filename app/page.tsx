@@ -1,16 +1,16 @@
-import Image from "next/image";
-import Section from "@/app/ui/Section";
 import Container from "@/app/ui/Container";
 import Prose from "@/app/ui/Prose";
+import Button from "@/app/ui/Button";
 
 export default function Home() {
   return (
     <>
       <header className="relative border-b border-zinc-300 dark:border-zinc-700">
-        <Container className="flex-wrap px-4 py-3 sm:px-8 sm:py-6">
+        <Container className="flex-row justify-between px-4 py-3 sm:px-8 sm:py-6">
           <h1 className="font-display text-xl text-zinc-800 dark:text-zinc-200">
             Fluid Typography
           </h1>
+          <Button variant="secondary">Click me</Button>
         </Container>
       </header>
       <main className="relative isolate mx-auto w-full flex-auto flex-grow">
