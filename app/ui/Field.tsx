@@ -12,11 +12,11 @@ import {
   Text,
   TextProps,
   composeRenderProps,
-  TextAreaProps,
+  TextAreaProps
 } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
-import { composeTailwindRenderProps, focusRing } from "../utils";
+import { composeTailwindRenderProps, focusRing } from "@/lib/utils";
 
 interface StylePropsPlus extends CSSProperties {
   fieldSizing: "content";
@@ -27,8 +27,8 @@ export function Label(props: LabelProps) {
     <_Label
       {...props}
       className={twMerge(
-        "w-fit cursor-default text-sm font-medium text-sage-11",
-        props.className,
+        "w-fit cursor-default text-sm font-medium text-zinc-600 dark:text-zinc-400",
+        props.className
       )}
     />
   );
@@ -39,7 +39,10 @@ export function Description(props: TextProps) {
     <Text
       {...props}
       slot="description"
-      className={twMerge("text-sm text-sage-11", props.className)}
+      className={twMerge(
+        "text-sm text-zinc-600 dark:text-zinc-400",
+        props.className
+      )}
     />
   );
 }
@@ -50,7 +53,7 @@ export function FieldError(props: FieldErrorProps) {
       {...props}
       className={composeTailwindRenderProps(
         props.className,
-        "text-sm text-red-600 forced-colors:text-[Mark]",
+        "text-sm text-red-600"
       )}
     />
   );
@@ -59,22 +62,22 @@ export function FieldError(props: FieldErrorProps) {
 export const fieldBorderStyles = tv({
   variants: {
     isFocusWithin: {
-      false: "border-sage-7",
-      true: "border-sage-9 focus:border-sage-9",
+      false: "border-zinc-950/10 dark:border-zinc-100/10",
+      true: "border-zinc-950/20 dark:border-zinc-100/20"
     },
     isInvalid: {
-      true: "border-red-600 dark:border-red-600 forced-colors:border-[Mark]",
+      true: "border-red-600 dark:border-red-600"
     },
     isDisabled: {
-      true: "border-gray-200 dark:border-zinc-700 forced-colors:border-[GrayText]",
-    },
-  },
+      true: "border-zinc-950/10 dark:border-zinc-100/10"
+    }
+  }
 });
 
 export const fieldGroupStyles = tv({
   extend: focusRing,
-  base: "group flex items-center h-9 bg-sage-12 forced-colors:bg-[Field] border-2 rounded-lg overflow-hidden",
-  variants: fieldBorderStyles.variants,
+  base: "group flex items-center h-9 bg-zinc-100 dark:bg-zinc-950 border-2 rounded-lg overflow-hidden",
+  variants: fieldBorderStyles.variants
 });
 
 export function FieldGroup(props: GroupProps) {
@@ -82,7 +85,7 @@ export function FieldGroup(props: GroupProps) {
     <Group
       {...props}
       className={composeRenderProps(props.className, (className, renderProps) =>
-        fieldGroupStyles({ ...renderProps, className }),
+        fieldGroupStyles({ ...renderProps, className })
       )}
     />
   );
@@ -94,7 +97,7 @@ export function Input(props: InputProps) {
       {...props}
       className={composeTailwindRenderProps(
         props.className,
-        "min-w-0 flex-1 bg-sage-1 px-2 py-1.5 text-base text-sage-11 outline outline-0 focus:ring-0 disabled:text-sage-9 sm:text-sm",
+        "min-w-0 flex-1 bg-zinc-100 px-2 py-1.5 text-base text-zinc-800 outline outline-0 disabled:text-zinc-200 dark:bg-zinc-950 dark:text-zinc-200 dark:disabled:text-zinc-600"
       )}
     />
   );
@@ -106,13 +109,13 @@ export function TextArea(props: TextAreaProps) {
       {...props}
       className={composeTailwindRenderProps(
         props.className,
-        "min-w-0 flex-1 resize-none bg-sage-1 px-2 py-1.5 text-base text-sage-11 outline outline-0 focus:ring-0 disabled:text-sage-9 sm:text-sm",
+        "min-w-0 flex-1 resize-none bg-zinc-100 px-2 py-1.5 text-base text-zinc-800 outline outline-0 disabled:text-zinc-200 dark:bg-zinc-950 dark:text-zinc-200 dark:disabled:text-zinc-600"
       )}
       style={
         {
           minHeight: "calc(2lh + 2em)",
           maxHeight: "calc(4lh + 2em)",
-          fieldSizing: "content",
+          fieldSizing: "content"
         } as StylePropsPlus
       }
     />

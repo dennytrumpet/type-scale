@@ -14,15 +14,16 @@ export interface ButtonProps extends _ButtonProps {
 
 let button = tv({
   extend: focusRing,
-  base: "px-4 py-2 text-sm text-center transition rounded-md cursor-default no-underline transition-all inline-flex items-center gap-2",
+  base: "px-4 py-2 text-sm text-center transition rounded-md cursor-default no-underline transition-all inline-flex items-center gap-2 border borer-solid ring-0 forced-color-adjust-none",
   variants: {
     variant: {
-      primary: "bg-zinc-200 text-zinc-900 hover:bg-zinc-300",
-      secondary: "bg-zinc-800 text-zinc-50 hover:bg-zinc-900",
-      icon: ""
+      primary:
+        "bg-zinc-100 text-zinc-950 dark:bg-zinc-950 hover:bg-zinc-200 dark:hover:bg-zinc-900 dark:text-zinc-100 border-zinc-950/10 dark:border-zinc-100/10",
+      secondary:
+        "bg-zinc-200 dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 hover:bg-zinc-300 hover:dark:bg-zinc-900 border-zinc-950/10 dark:border-zinc-100/10"
     },
     isDisabled: {
-      true: ""
+      true: "opacity-50 cursor-not-allowed"
     }
   },
   defaultVariants: {

@@ -9,7 +9,7 @@ export interface WrapperProps {
 }
 
 export const focusRing = tv({
-  base: "outline outline-emerald-500 forced-colors:outline-[Highlight] outline-offset-2",
+  base: "outline-zinc-400 dark:outline-zinc-600 outline-offset-2",
   variants: {
     isFocusVisible: {
       false: "outline-0",

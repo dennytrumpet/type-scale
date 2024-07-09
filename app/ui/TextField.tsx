@@ -2,7 +2,7 @@ import React from "react";
 import {
   TextField as _TextField,
   TextFieldProps as _TextFieldProps,
-  ValidationResult,
+  ValidationResult
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
 import {
@@ -11,17 +11,17 @@ import {
   Input,
   Label,
   fieldBorderStyles,
-  TextArea,
+  TextArea
 } from "./Field";
-import { composeTailwindRenderProps, focusRing } from "../utils";
+import { composeTailwindRenderProps, focusRing } from "@/lib/utils";
 
 const inputStyles = tv({
   extend: focusRing,
   base: "border-2 rounded-md",
   variants: {
     isFocused: fieldBorderStyles.variants.isFocusWithin,
-    ...fieldBorderStyles.variants,
-  },
+    ...fieldBorderStyles.variants
+  }
 });
 
 export interface TextFieldProps extends _TextFieldProps {
@@ -43,7 +43,7 @@ export default function TextField({
       {...props}
       className={composeTailwindRenderProps(
         props.className,
-        "flex flex-col gap-1",
+        "flex flex-col gap-1"
       )}
     >
       {label && <Label>{label}</Label>}

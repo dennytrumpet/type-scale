@@ -2,10 +2,10 @@ import React from "react";
 import {
   Link as _Link,
   LinkProps as _LinkProps,
-  composeRenderProps,
+  composeRenderProps
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
-import { focusRing } from "../utils";
+import { focusRing } from "@/lib/utils";
 
 interface LinkProps extends _LinkProps {
   variant?: "primary" | "secondary";
@@ -13,16 +13,16 @@ interface LinkProps extends _LinkProps {
 
 const styles = tv({
   extend: focusRing,
-  base: "text-base transition-colors text-sage-12 bg-gradient-to-r from-emerald-600 via-sky-600 to-fuchsia-600 bg-clip-text hover:text-transparent",
+  base: "text-base transition-colors text-sage-12 bg-gradient-to-r from-zinc-600 via-sky-600 to-fuchsia-600 bg-clip-text hover:text-transparent",
   variants: {
     variant: {
       primary: "",
-      secondary: "",
-    },
+      secondary: ""
+    }
   },
   defaultVariants: {
-    variant: "primary",
-  },
+    variant: "primary"
+  }
 });
 
 export default function Link(props: LinkProps) {
@@ -30,7 +30,7 @@ export default function Link(props: LinkProps) {
     <_Link
       {...props}
       className={composeRenderProps(props.className, (className, renderProps) =>
-        styles({ ...renderProps, className, variant: props.variant }),
+        styles({ ...renderProps, className, variant: props.variant })
       )}
     />
   );
