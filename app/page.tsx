@@ -230,7 +230,10 @@ export default function Home() {
               </code>
             </div>
             <div className="max-w-full overflow-x-auto rounded-lg border border-zinc-950/10 p-base md:order-1 dark:border-zinc-100/10">
-              <Prose className="type-scale md:mx-0" ref={scaleRef}>
+              <Prose
+                className="type-scale max-w-[--prose-width] md:mx-0"
+                ref={scaleRef}
+              >
                 <h1 className="mb-base-0.5 mt-base text-balance font-display text-5xl text-zinc-800 dark:text-zinc-200">
                   Fluid Type Scale
                 </h1>
