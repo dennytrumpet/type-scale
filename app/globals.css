@@ -43,7 +43,7 @@
 
   --font-ratio: 1.25;
   --root-size: 16;
-  --fluid-size: 2vi;
+  --fluid-size: 1vi;
   --base-size: calc(var(--root-size) / 16);
   --leading-display: 1.25;
   --leading-base: 1.5;
