@@ -200,7 +200,7 @@ export default function Home() {
       </header>
       <main className="relative isolate mx-auto w-full flex-auto flex-grow">
         <Container className="px-4 py-3 sm:px-8 sm:py-6">
-          <div className="grid items-stretch gap-6 md:grid-cols-[1fr_16rem]">
+          <div className="grid max-w-full items-stretch gap-6 md:grid-cols-[1fr_16rem]">
             <div className="order-2 flex flex-col space-y-4">
               <div className="hidden md:block">
                 <FormComponent
@@ -301,6 +301,7 @@ export default function Home() {
             >
               <Menu />
             </DrawerTrigger>
+
             <DrawerContent>
               <div className="relative mx-auto max-h-full w-full max-w-sm p-4">
                 <FormComponent

@@ -13,8 +13,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="flex min-h-screen flex-col overflow-x-clip scroll-smooth bg-zinc-100 font-body text-base text-zinc-600 dark:bg-zinc-950 dark:text-zinc-400">
-        {children}
+      <body className="scroll-smooth bg-zinc-100 font-body text-base text-zinc-600 dark:bg-zinc-950 dark:text-zinc-400">
+        <div className="flex min-h-screen flex-col">{children}</div>
       </body>
     </html>
   );
