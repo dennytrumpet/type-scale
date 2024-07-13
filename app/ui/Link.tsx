@@ -5,7 +5,7 @@ import {
   composeRenderProps
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
-import { focusRing } from "@/lib/utils";
+import { focusRing } from "@/app/ui/utils";
 
 interface LinkProps extends _LinkProps {
   variant?: "primary" | "secondary";
@@ -13,7 +13,7 @@ interface LinkProps extends _LinkProps {
 
 const styles = tv({
   extend: focusRing,
-  base: "text-base transition-colors text-sage-12 bg-gradient-to-r from-zinc-600 via-sky-600 to-fuchsia-600 bg-clip-text hover:text-transparent",
+  base: "text-sage-12 bg-gradient-to-r from-zinc-600 via-sky-600 to-fuchsia-600 bg-clip-text text-base transition-colors hover:text-transparent",
   variants: {
     variant: {
       primary: "",

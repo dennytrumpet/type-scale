@@ -10,7 +10,7 @@ import {
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
 import { Description, FieldError, Label, fieldGroupStyles } from "./Field";
-import { composeTailwindRenderProps } from "./utils";
+import { composeTailwindRenderProps } from "@/app/ui/utils";
 
 export interface DateFieldProps<T extends DateValue>
   extends AriaDateFieldProps<T> {
@@ -42,10 +42,10 @@ export function DateField<T extends DateValue>({
 }
 
 const segmentStyles = tv({
-  base: "inline p-0.5 type-literal:px-0 rounded outline outline-0 caret-transparent text-zinc-800 dark:text-zinc-200",
+  base: "type-literal:px-0 inline rounded p-0.5 text-zinc-800 caret-transparent outline outline-0 dark:text-zinc-200",
   variants: {
     isPlaceholder: {
-      true: "text-zinc-600 dark:text-zinc-400 italic"
+      true: "italic text-zinc-600 dark:text-zinc-400"
     },
     isDisabled: {
       true: "text-zinc-200 dark:text-zinc-600"

@@ -10,7 +10,7 @@ import {
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
 import { Description, FieldError, Label } from "./Field";
-import { composeTailwindRenderProps, focusRing } from "./utils";
+import { composeTailwindRenderProps, focusRing } from "@/app/ui/utils";
 
 export interface CheckboxGroupProps
   extends Omit<AriaCheckboxGroupProps, "children"> {
@@ -38,7 +38,7 @@ export function CheckboxGroup(props: CheckboxGroupProps) {
 }
 
 const checkboxStyles = tv({
-  base: "flex gap-2 items-center group text-sm transition",
+  base: "group flex items-center gap-2 text-sm transition",
   variants: {
     isDisabled: {
       false: "text-zinc-800 dark:text-zinc-200",
@@ -49,15 +49,15 @@ const checkboxStyles = tv({
 
 const boxStyles = tv({
   extend: focusRing,
-  base: "w-5 h-5 flex-shrink-0 rounded flex items-center justify-center border-2 transition",
+  base: "flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border-2 transition",
   variants: {
     isSelected: {
       false:
-        "bg-zinc-100 dark:bg-zinc-950 border-[--color] [--color:theme(colors.gray.400)] dark:[--color:colors.zinc-400)] group-pressed:[--color:theme(colors.gray.500)] dark:group-pressed:[--color:theme(colors.zinc.300)]",
-      true: "bg-[--color] border-[--color] [--color:theme(colors.gray.700)] group-pressed:[--color:theme(colors.gray.800)] dark:[--color:theme(colors.slate.300)] dark:group-pressed:[--color:theme(colors.slate.200)]"
+        "dark:[--color:colors.zinc-400)] group-pressed:[--color:theme(colors.gray.500)] dark:group-pressed:[--color:theme(colors.zinc.300)] border-[--color] bg-zinc-100 [--color:theme(colors.gray.400)] dark:bg-zinc-950",
+      true: "group-pressed:[--color:theme(colors.gray.800)] dark:group-pressed:[--color:theme(colors.slate.200)] border-[--color] bg-[--color] [--color:theme(colors.gray.700)] dark:[--color:theme(colors.slate.300)]"
     },
     isInvalid: {
-      true: "[--color:theme(colors.red.700)] dark:[--color:theme(colors.red.600)] group-pressed:[--color:theme(colors.red.800)] dark:group-pressed:[--color:theme(colors.red.700)]"
+      true: "group-pressed:[--color:theme(colors.red.800)] dark:group-pressed:[--color:theme(colors.red.700)] [--color:theme(colors.red.700)] dark:[--color:theme(colors.red.600)]"
     },
     isDisabled: {
       true: "[--color:theme(colors.gray.200)] dark:[--color:theme(colors.zinc.700)]"

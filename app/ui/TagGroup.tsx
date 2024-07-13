@@ -14,7 +14,7 @@ import {
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
 import { Description, Label } from "./Field";
-import { focusRing } from "./utils";
+import { focusRing } from "@/app/ui/utils";
 
 const colors = {
   gray: "bg-zinc-100 text-zinc-600 border-zinc-200 hover:border-zinc-300 dark:bg-zinc-700 dark:text-zinc-300 dark:border-zinc-600 dark:hover:border-zinc-500",
@@ -30,7 +30,7 @@ const ColorContext = createContext<Color>("gray");
 
 const tagStyles = tv({
   extend: focusRing,
-  base: "transition cursor-default text-xs rounded-full border px-3 py-0.5 flex items-center max-w-fit gap-1",
+  base: "flex max-w-fit cursor-default items-center gap-1 rounded-full border px-3 py-0.5 text-xs transition",
   variants: {
     color: {
       gray: "",
@@ -42,7 +42,7 @@ const tagStyles = tv({
       true: "pr-1"
     },
     isSelected: {
-      true: "bg-zinc-600 text-zinc-100 border-transparent"
+      true: "border-transparent bg-zinc-600 text-zinc-100"
     },
     isDisabled: {
       true: "bg-zinc-100 text-zinc-300"
@@ -104,7 +104,7 @@ export function TagGroup<T extends object>({
 
 const removeButtonStyles = tv({
   extend: focusRing,
-  base: "cursor-default rounded-full transition-[background-color] p-0.5 flex items-center justify-center hover:bg-zinc-950/10 dark:hover:bg-zinc-950/10 pressed:bg-zinc-950/20 dark:pressed:bg-zinc-100/20"
+  base: "pressed:bg-zinc-950/20 dark:pressed:bg-zinc-100/20 flex cursor-default items-center justify-center rounded-full p-0.5 transition-[background-color] hover:bg-zinc-950/10 dark:hover:bg-zinc-950/10"
 });
 
 export function Tag({ children, color, ...props }: TagProps) {

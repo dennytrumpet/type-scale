@@ -8,7 +8,7 @@ import {
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
 import { Description, FieldError, Label } from "./Field";
-import { composeTailwindRenderProps, focusRing } from "./utils";
+import { composeTailwindRenderProps, focusRing } from "@/app/ui/utils";
 
 export interface RadioGroupProps extends Omit<RACRadioGroupProps, "children"> {
   label?: string;
@@ -38,15 +38,15 @@ export function RadioGroup(props: RadioGroupProps) {
 
 const styles = tv({
   extend: focusRing,
-  base: "w-5 h-5 rounded-full border-2 bg-zinc-100 dark:bg-zinc-950 transition-all",
+  base: "h-5 w-5 rounded-full border-2 bg-zinc-100 transition-all dark:bg-zinc-950",
   variants: {
     isSelected: {
       false:
-        "border-zinc-400 dark:border-zinc-400 group-pressed:border-zinc-500 dark:group-pressed:border-zinc-300",
-      true: "border-[7px] border-zinc-700 dark:border-slate-300 group-pressed:border-zinc-800 dark:group-pressed:border-slate-200"
+        "group-pressed:border-zinc-500 dark:group-pressed:border-zinc-300 border-zinc-400 dark:border-zinc-400",
+      true: "group-pressed:border-zinc-800 dark:group-pressed:border-slate-200 border-[7px] border-zinc-700 dark:border-slate-300"
     },
     isInvalid: {
-      true: "border-red-700 dark:border-red-600 group-pressed:border-red-800 dark:group-pressed:border-red-700"
+      true: "group-pressed:border-red-800 dark:group-pressed:border-red-700 border-red-700 dark:border-red-600"
     },
     isDisabled: {
       true: "border-zinc-200 dark:border-zinc-700"

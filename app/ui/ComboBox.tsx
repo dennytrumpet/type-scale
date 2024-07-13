@@ -11,7 +11,7 @@ import Button from "./Button";
 import { Description, FieldError, FieldGroup, Input, Label } from "./Field";
 import { DropdownItem, DropdownSection, DropdownSectionProps } from "./ListBox";
 import { Popover } from "./Popover";
-import { composeTailwindRenderProps } from "./utils";
+import { composeTailwindRenderProps } from "@/app/ui/utils";
 
 export interface ComboBoxProps<T extends object>
   extends Omit<AriaComboBoxProps<T>, "children"> {

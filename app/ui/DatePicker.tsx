@@ -12,7 +12,7 @@ import { DateInput } from "./DateField";
 import { Dialog } from "./Dialog";
 import { Description, FieldError, FieldGroup, Label } from "./Field";
 import { Popover } from "./Popover";
-import { composeTailwindRenderProps } from "./utils";
+import { composeTailwindRenderProps } from "@/app/ui/utils";
 
 export interface DatePickerProps<T extends DateValue>
   extends AriaDatePickerProps<T> {

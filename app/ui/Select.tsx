@@ -14,16 +14,16 @@ import { tv } from "tailwind-variants";
 import { Description, FieldError, Label } from "./Field";
 import { DropdownItem, DropdownSection, DropdownSectionProps } from "./ListBox";
 import { Popover } from "./Popover";
-import { composeTailwindRenderProps, focusRing } from "./utils";
+import { composeTailwindRenderProps, focusRing } from "@/app/ui/utils";
 
 const styles = tv({
   extend: focusRing,
-  base: "flex items-center text-start gap-4 w-full cursor-default border border-zinc-950/10 dark:border-zinc-100/10 dark:shadow-none rounded-lg pl-3 pr-2 py-2 min-w-[150px] transition bg-zinc-100 dark:bg-zinc-950",
+  base: "flex w-full min-w-[150px] cursor-default items-center gap-4 rounded-lg border border-zinc-950/10 bg-zinc-100 py-2 pl-3 pr-2 text-start transition dark:border-zinc-100/10 dark:bg-zinc-950 dark:shadow-none",
   variants: {
     isDisabled: {
       false:
-        "text-zinc-800 dark:text-zinc-300 hover:bg-zinc-100/90 pressed:bg-zinc-200 dark:hover:bg-zinc-950/90 dark:pressed:bg-zinc-500 group-invalid:border-red-600",
-      true: "text-zinc-200 dark:text-zinc-600 dark:bg-zinc-800 dark:border-zinc-100/5"
+        "pressed:bg-zinc-200 dark:pressed:bg-zinc-800 text-zinc-800 hover:bg-zinc-100/90 group-invalid:border-red-600 dark:text-zinc-300 dark:hover:bg-zinc-950/90",
+      true: "text-zinc-200 dark:border-zinc-100/5 dark:bg-zinc-800 dark:text-zinc-600"
     }
   }
 });

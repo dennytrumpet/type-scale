@@ -16,7 +16,7 @@ import {
   Label,
   fieldBorderStyles
 } from "./Field";
-import { composeTailwindRenderProps } from "./utils";
+import { composeTailwindRenderProps } from "@/app/ui/utils";
 
 export interface NumberFieldProps extends AriaNumberFieldProps {
   label?: string;

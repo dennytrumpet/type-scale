@@ -12,7 +12,7 @@ import {
   composeRenderProps
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
-import { composeTailwindRenderProps, focusRing } from "./utils";
+import { composeTailwindRenderProps, focusRing } from "@/app/ui/utils";
 
 interface ListBoxProps<T>
   extends Omit<AriaListBoxProps<T>, "layout" | "orientation"> {}
@@ -36,12 +36,12 @@ export function ListBox<T extends object>({
 
 export const itemStyles = tv({
   extend: focusRing,
-  base: "group relative flex items-center gap-8 cursor-default select-none py-1.5 px-2.5 rounded-md will-change-transform text-sm",
+  base: "group relative flex cursor-default select-none items-center gap-8 rounded-md px-2.5 py-1.5 text-sm will-change-transform",
   variants: {
     isSelected: {
       false:
-        "text-slate-600 dark:text-zinc-400 hover:bg-slate-200 dark:hover:bg-zinc-800 -outline-offset-2",
-      true: "bg-zinc-200 text-zinc-100 [&:has(+[data-selected])]:rounded-b-none [&+[data-selected]]:rounded-t-none -outline-offset-4 outline-zinc-100 dark:outline-zinc-100"
+        "text-slate-600 -outline-offset-2 hover:bg-slate-200 dark:text-zinc-400 dark:hover:bg-zinc-800",
+      true: "bg-zinc-200 text-zinc-100 -outline-offset-4 outline-zinc-100 dark:outline-zinc-100 [&+[data-selected]]:rounded-t-none [&:has(+[data-selected])]:rounded-b-none"
     },
     isDisabled: {
       true: "text-slate-300 dark:text-zinc-700"
@@ -66,14 +66,14 @@ export function ListBoxItem(props: ListBoxItemProps) {
 }
 
 export const dropdownItemStyles = tv({
-  base: "group flex items-center gap-4 cursor-default select-none py-2 pl-3 pr-1 rounded-lg outline outline-0 text-sm",
+  base: "group flex cursor-default select-none items-center gap-4 rounded-lg py-2 pl-3 pr-1 text-sm outline outline-0",
   variants: {
     isDisabled: {
       false: "text-zinc-900 dark:text-zinc-100",
       true: "text-zinc-300 dark:text-zinc-600"
     },
     isFocused: {
-      true: "bg-zinc-200 dark:bg-zinc-800 text-zinc-950 dark:text-zinc-50"
+      true: "bg-zinc-200 text-zinc-950 dark:bg-zinc-800 dark:text-zinc-50"
     }
   },
   compoundVariants: [

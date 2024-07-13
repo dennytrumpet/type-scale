@@ -4,7 +4,7 @@ import {
   SwitchProps as AriaSwitchProps
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
-import { composeTailwindRenderProps, focusRing } from "./utils";
+import { composeTailwindRenderProps, focusRing } from "@/app/ui/utils";
 
 export interface SwitchProps extends Omit<AriaSwitchProps, "children"> {
   children: React.ReactNode;
@@ -12,12 +12,12 @@ export interface SwitchProps extends Omit<AriaSwitchProps, "children"> {
 
 const track = tv({
   extend: focusRing,
-  base: "flex h-4 w-7 px-px items-center shrink-0 cursor-default rounded-full transition duration-200 ease-in-out shadow-inner border border-transparent",
+  base: "flex h-4 w-7 shrink-0 cursor-default items-center rounded-full border border-transparent px-px shadow-inner transition duration-200 ease-in-out",
   variants: {
     isSelected: {
       false:
-        "bg-zinc-400 dark:bg-zinc-400 group-pressed:bg-zinc-500 dark:group-pressed:bg-zinc-300",
-      true: "bg-zinc-700 dark:bg-zinc-300 group-pressed:bg-zinc-800 dark:group-pressed:bg-zinc-200"
+        "group-pressed:bg-zinc-500 dark:group-pressed:bg-zinc-300 bg-zinc-400 dark:bg-zinc-400",
+      true: "group-pressed:bg-zinc-800 dark:group-pressed:bg-zinc-200 bg-zinc-700 dark:bg-zinc-300"
     },
     isDisabled: {
       true: "bg-zinc-200 dark:bg-zinc-700"
@@ -26,7 +26,7 @@ const track = tv({
 });
 
 const handle = tv({
-  base: "h-3 w-3 transform rounded-full bg-zinc-100 dark:bg-zinc-950 outline outline-1 -outline-offset-1 outline-transparent shadow transition duration-200 ease-in-out",
+  base: "h-3 w-3 transform rounded-full bg-zinc-100 shadow outline outline-1 -outline-offset-1 outline-transparent transition duration-200 ease-in-out dark:bg-zinc-950",
   variants: {
     isSelected: {
       false: "translate-x-0",

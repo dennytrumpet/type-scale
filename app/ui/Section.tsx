@@ -1,6 +1,6 @@
 import React from "react";
 import { tv } from "tailwind-variants";
-import { WrapperProps } from "@/lib/utils";
+import { WrapperProps } from "@/app/ui/utils";
 
 const Section = ({ children, className, id }: WrapperProps) => {
   const sectionClasses = tv({

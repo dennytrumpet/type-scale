@@ -16,7 +16,7 @@ import {
 } from "react-aria-components";
 import { twMerge } from "tailwind-merge";
 import { tv } from "tailwind-variants";
-import { composeTailwindRenderProps, focusRing } from "@/lib/utils";
+import { composeTailwindRenderProps, focusRing } from "@/app/ui/utils";
 
 interface StylePropsPlus extends CSSProperties {
   fieldSizing: "content";
@@ -76,7 +76,7 @@ export const fieldBorderStyles = tv({
 
 export const fieldGroupStyles = tv({
   extend: focusRing,
-  base: "group flex items-center h-9 bg-zinc-100 dark:bg-zinc-950 border-2 rounded-lg overflow-hidden",
+  base: "group flex h-9 items-center overflow-hidden rounded-lg border-2 bg-zinc-100 dark:bg-zinc-950",
   variants: fieldBorderStyles.variants
 });
 

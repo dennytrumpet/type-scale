@@ -12,7 +12,7 @@ import { Dialog } from "./Dialog";
 import { Description, FieldError, FieldGroup, Label } from "./Field";
 import { Popover } from "./Popover";
 import { RangeCalendar } from "./RangeCalendar";
-import { composeTailwindRenderProps } from "./utils";
+import { composeTailwindRenderProps } from "@/app/ui/utils";
 
 export interface DateRangePickerProps<T extends DateValue>
   extends AriaDateRangePickerProps<T> {

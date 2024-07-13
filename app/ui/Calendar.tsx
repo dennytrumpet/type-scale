@@ -15,16 +15,16 @@ import {
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
 import Button from "./Button";
-import { focusRing } from "./utils";
+import { focusRing } from "@/app/ui/utils";
 
 const cellStyles = tv({
   extend: focusRing,
-  base: "w-9 h-9 text-sm cursor-default rounded-full flex items-center justify-centerx",
+  base: "justify-centerx flex h-9 w-9 cursor-default items-center rounded-full text-sm",
   variants: {
     isSelected: {
       false:
-        "text-zinc-900 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-700 pressed:bg-zinc-200 dark:pressed:bg-zinc-600",
-      true: "bg-zinc-600 invalid:bg-red-600 text-zinc-100"
+        "pressed:bg-zinc-200 dark:pressed:bg-zinc-600 text-zinc-900 hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-700",
+      true: "bg-zinc-600 text-zinc-100 invalid:bg-red-600"
     },
     isDisabled: {
       true: "text-zinc-300 dark:text-zinc-600"

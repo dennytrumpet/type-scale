@@ -11,14 +11,14 @@ import {
   composeRenderProps
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
-import { focusRing } from "./utils";
+import { focusRing } from "@/app/ui/utils";
 
 const tabsStyles = tv({
   base: "flex gap-4",
   variants: {
     orientation: {
       horizontal: "flex-col",
-      vertical: "flex-row w-[800px]"
+      vertical: "w-[800px] flex-row"
     }
   }
 });
@@ -57,15 +57,15 @@ export function TabList<T extends object>(props: TabListProps<T>) {
 
 const tabProps = tv({
   extend: focusRing,
-  base: "flex items-center cursor-default rounded-full px-4 py-1.5 text-sm font-medium transition",
+  base: "flex cursor-default items-center rounded-full px-4 py-1.5 text-sm font-medium transition",
   variants: {
     isSelected: {
       false:
-        "text-zinc-600 dark:text-zinc-300 hover:text-zinc-700 pressed:text-zinc-700 dark:hover:text-zinc-200 dark:pressed:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800 pressed:bg-zinc-200 dark:pressed:bg-zinc-800",
-      true: "text-zinc-100 dark:text-zinc-950 bg-zinc-800 dark:bg-zinc-200"
+        "pressed:text-zinc-700 dark:pressed:text-zinc-200 pressed:bg-zinc-200 dark:pressed:bg-zinc-800 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-200",
+      true: "bg-zinc-800 text-zinc-100 dark:bg-zinc-200 dark:text-zinc-950"
     },
     isDisabled: {
-      true: "text-zinc-200 dark:text-zinc-600 selected:text-zinc-300 dark:selected:text-zinc-500 selected:bg-zinc-200 dark:selected:bg-zinc-600"
+      true: "selected:text-zinc-300 dark:selected:text-zinc-500 selected:bg-zinc-200 dark:selected:bg-zinc-600 text-zinc-200 dark:text-zinc-600"
     }
   }
 });

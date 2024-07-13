@@ -8,14 +8,14 @@ import {
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
 import { Label } from "./Field";
-import { composeTailwindRenderProps, focusRing } from "@/lib/utils";
+import { composeTailwindRenderProps, focusRing } from "@/app/ui/utils";
 
 const trackStyles = tv({
   base: "rounded-full",
   variants: {
     orientation: {
-      horizontal: "w-full h-[6px]",
-      vertical: "h-full w-[6px] ml-[50%] -translate-x-[50%]"
+      horizontal: "h-[6px] w-full",
+      vertical: "ml-[50%] h-full w-[6px] -translate-x-[50%]"
     },
     isDisabled: {
       false: "bg-zinc-300 dark:bg-zinc-500",
@@ -26,7 +26,7 @@ const trackStyles = tv({
 
 const thumbStyles = tv({
   extend: focusRing,
-  base: "w-6 h-6 group-orientation-horizontal:mt-6 group-orientation-vertical:ml-3 rounded-full bg-zinc-50 dark:bg-zinc-900 border-2 border-zinc-700 dark:border-zinc-300",
+  base: "group-orientation-horizontal:mt-6 group-orientation-vertical:ml-3 h-6 w-6 rounded-full border-2 border-zinc-700 bg-zinc-50 dark:border-zinc-300 dark:bg-zinc-900",
   variants: {
     isDragging: {
       true: "bg-zinc-700 dark:bg-zinc-300"

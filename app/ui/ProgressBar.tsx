@@ -4,7 +4,7 @@ import {
   ProgressBarProps as AriaProgressBarProps
 } from "react-aria-components";
 import { Label } from "./Field";
-import { composeTailwindRenderProps } from "./utils";
+import { composeTailwindRenderProps } from "@/app/ui/utils";
 
 export interface ProgressBarProps extends AriaProgressBarProps {
   label?: string;

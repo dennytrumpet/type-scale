@@ -1,12 +1,23 @@
-import React from "react";
+import React, { ForwardedRef, forwardRef } from "react";
 import { tv } from "tailwind-variants";
-import { WrapperProps } from "@/lib/utils";
+import { WrapperProps } from "@/app/ui/utils";
 
-const Content = ({ children, className }: WrapperProps) => {
-  const contentClasses = tv({
-    base: "relative mx-auto max-w-prose text-pretty text-left *:transition-all *:duration-300 *:ease-in-out first:*:mt-0 last:*:mb-0 text-base w-full"
-  });
-  return <div className={contentClasses({ className })}>{children}</div>;
-};
+const Prose = forwardRef(
+  (
+    { children, className }: WrapperProps,
+    ref: ForwardedRef<HTMLDivElement>
+  ) => {
+    const proseClasses = tv({
+      base: "relative mx-auto w-full max-w-prose text-pretty text-left text-base *:transition-all *:duration-300 *:ease-in-out first:*:mt-0 last:*:mb-0"
+    });
+    return (
+      <div className={proseClasses({ className })} ref={ref}>
+        {children}
+      </div>
+    );
+  }
+);
 
-export default Content;
+Prose.displayName = "Prose";
+
+export default Prose;

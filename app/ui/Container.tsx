@@ -1,10 +1,10 @@
 import React from "react";
 import { tv } from "tailwind-variants";
-import { WrapperProps } from "@/lib/utils";
+import { WrapperProps } from "@/app/ui/utils";
 
 const Container = ({ children, className }: WrapperProps) => {
   const containerClasses = tv({
-    base: "container mx-auto flex flex-col relative"
+    base: "container relative mx-auto flex flex-col"
   });
   return <div className={containerClasses({ className })}>{children}</div>;
 };

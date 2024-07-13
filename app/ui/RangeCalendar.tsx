@@ -10,7 +10,7 @@ import {
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
 import { CalendarGridHeader, CalendarHeader } from "./Calendar";
-import { focusRing } from "./utils";
+import { focusRing } from "@/app/ui/utils";
 
 export interface RangeCalendarProps<T extends DateValue>
   extends Omit<AriaRangeCalendarProps<T>, "visibleDuration"> {
@@ -19,17 +19,17 @@ export interface RangeCalendarProps<T extends DateValue>
 
 const cell = tv({
   extend: focusRing,
-  base: "w-full h-full flex items-center justify-center rounded-full text-zinc-900 dark:text-zinc-200",
+  base: "flex h-full w-full items-center justify-center rounded-full text-zinc-900 dark:text-zinc-200",
   variants: {
     selectionState: {
-      none: "group-hover:bg-zinc-100 dark:group-hover:bg-zinc-700 group-pressed:bg-zinc-200 dark:group-pressed:bg-zinc-600",
+      none: "group-pressed:bg-zinc-200 dark:group-pressed:bg-zinc-600 group-hover:bg-zinc-100 dark:group-hover:bg-zinc-700",
       middle: [
         "group-hover:bg-zinc-200 dark:group-hover:bg-zinc-900",
         "group-invalid:group-hover:bg-red-200 dark:group-invalid:group-hover:bg-red-900",
         "group-pressed:bg-zinc-300 dark:group-pressed:bg-zinc-800",
         "group-invalid:group-pressed:bg-red-300 dark:group-invalid:group-pressed:bg-red-800"
       ],
-      cap: "bg-zinc-600 group-invalid:bg-red-600 text-zinc-100"
+      cap: "bg-zinc-600 text-zinc-100 group-invalid:bg-red-600"
     },
     isDisabled: {
       true: "text-zinc-300 dark:text-zinc-600"

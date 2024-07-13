@@ -13,11 +13,11 @@ import {
   fieldBorderStyles,
   TextArea
 } from "./Field";
-import { composeTailwindRenderProps, focusRing } from "@/lib/utils";
+import { composeTailwindRenderProps, focusRing } from "@/app/ui/utils";
 
 const inputStyles = tv({
   extend: focusRing,
-  base: "border-2 rounded-md",
+  base: "rounded-md border-2",
   variants: {
     isFocused: fieldBorderStyles.variants.isFocusWithin,
     ...fieldBorderStyles.variants

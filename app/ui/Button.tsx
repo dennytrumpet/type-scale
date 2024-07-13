@@ -6,24 +6,35 @@ import {
   ButtonProps as _ButtonProps
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
-import { focusRing } from "@/lib/utils";
+import { focusRing } from "@/app/ui/utils";
 
 export interface ButtonProps extends _ButtonProps {
-  variant?: "primary" | "secondary" | "danger" | "icon";
+  variant?:
+    | "primary"
+    | "secondary"
+    | "danger"
+    | "accent"
+    | "destructive"
+    | "icon";
 }
 
-let button = tv({
+export const button = tv({
   extend: focusRing,
-  base: "px-4 py-2 text-sm text-center transition rounded-md cursor-default no-underline transition-all inline-flex items-center gap-2 border borer-solid ring-0 forced-color-adjust-none",
+  base: "borer-solid inline-flex cursor-default items-center gap-2 rounded-md border px-4 py-2 text-center text-sm no-underline ring-0 transition transition-all forced-color-adjust-none",
   variants: {
     variant: {
       primary:
-        "bg-zinc-100 text-zinc-950 dark:bg-zinc-950 hover:bg-zinc-200 dark:hover:bg-zinc-900 dark:text-zinc-100 border-zinc-950/10 dark:border-zinc-100/10",
+        "border-zinc-950/10 bg-zinc-100 text-zinc-950 hover:bg-zinc-200 dark:border-zinc-100/10 dark:bg-zinc-950 dark:text-zinc-100 dark:hover:bg-zinc-900",
       secondary:
-        "bg-zinc-200 dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 hover:bg-zinc-300 hover:dark:bg-zinc-900 border-zinc-950/10 dark:border-zinc-100/10"
+        "border-zinc-950/10 bg-zinc-200 text-zinc-950 hover:bg-zinc-300 dark:border-zinc-100/10 dark:bg-zinc-800 dark:text-zinc-100 hover:dark:bg-zinc-900",
+      accent:
+        "border-zinc-950/10 bg-zinc-400 text-zinc-950 hover:bg-zinc-500 dark:border-zinc-100/10 dark:bg-zinc-600 dark:text-zinc-100 hover:dark:bg-zinc-700",
+      danger: "",
+      destructive: "",
+      icon: "p-2"
     },
     isDisabled: {
-      true: "opacity-50 cursor-not-allowed"
+      true: "cursor-not-allowed opacity-50"
     }
   },
   defaultVariants: {
