@@ -1,31 +1,33 @@
-import React from "react";
+import React, { useRef, useContext, useMemo } from "react";
 import {
-  Tab as RACTab,
-  TabList as RACTabList,
-  TabPanel as RACTabPanel,
-  Tabs as RACTabs,
+  Tab as AriaTab,
+  TabList as AriaTabList,
+  TabPanel as AriaTabPanel,
+  Tabs as AriaTabs,
   TabListProps,
   TabPanelProps,
   TabProps,
   TabsProps,
-  composeRenderProps
+  composeRenderProps,
+  TabListStateContext
 } from "react-aria-components";
 import { tv } from "tailwind-variants";
-import { focusRing } from "@/app/ui/utils";
+import { focusRing } from "./utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 const tabsStyles = tv({
-  base: "flex gap-4",
+  base: "relative flex gap-3 rounded-lg border border-solid border-zinc-950/10 bg-zinc-50 p-1 dark:border-zinc-50/10 dark:bg-zinc-900",
   variants: {
     orientation: {
       horizontal: "flex-col",
-      vertical: "w-[800px] flex-row"
+      vertical: "w-full max-w-3xl flex-row"
     }
   }
 });
 
 export function Tabs(props: TabsProps) {
   return (
-    <RACTabs
+    <AriaTabs
       {...props}
       className={composeRenderProps(props.className, (className, renderProps) =>
         tabsStyles({ ...renderProps, className })
@@ -35,7 +37,7 @@ export function Tabs(props: TabsProps) {
 }
 
 const tabListStyles = tv({
-  base: "flex gap-1",
+  base: "relative z-20 flex gap-1.5",
   variants: {
     orientation: {
       horizontal: "flex-row",
@@ -45,34 +47,64 @@ const tabListStyles = tv({
 });
 
 export function TabList<T extends object>(props: TabListProps<T>) {
+  const state = useContext(TabListStateContext);
+  const tabListRef = useRef<HTMLDivElement>(null);
+  const TabListVariants = ({ className }) =>
+    composeRenderProps(className, (className, renderProps) => {
+      return tabListStyles({ ...renderProps, className });
+    });
+  const TabListIndicator = useMemo(() => {
+    if (!state) return {};
+    const { selectedKey } = state;
+    let tabs = tabListRef && tabListRef.current?.querySelectorAll("[role=tab]");
+    const selectedRect =
+      (tabs && selectedKey && tabs[selectedKey - 1]?.getBoundingClientRect()) ||
+      {};
+    const tabListRect = tabListRef.current?.getBoundingClientRect() || {};
+    return {
+      width: `${selectedRect.width}px` || "135.42px",
+      height: `${selectedRect.height}px` || "36px",
+      x: `calc(${selectedRect.left - tabListRect.left}px)` || "4px",
+      y: `calc(${selectedRect.top - tabListRect.top}px)` || "4px",
+      transition: { type: "tween", duration: 0.2, ease: "easeOut" }
+    };
+  }, [state]);
   return (
-    <RACTabList
-      {...props}
-      className={composeRenderProps(props.className, (className, renderProps) =>
-        tabListStyles({ ...renderProps, className })
-      )}
-    />
+    <div className="group relative rounded-lg" ref={tabListRef}>
+      <AriaTabList
+        {...props}
+        className={TabListVariants({ className: props.className })}
+      />
+      <AnimatePresence>
+        {state?.selectedKey && (
+          <motion.div
+            initial={false}
+            animate={TabListIndicator}
+            className="pointer-events-none absolute inset-0 z-10 rounded-md bg-white shadow dark:border-zinc-50/10 dark:bg-zinc-950"
+          />
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 
 const tabProps = tv({
   extend: focusRing,
-  base: "flex cursor-default items-center rounded-full px-4 py-1.5 text-sm font-medium transition",
+  base: "flex cursor-default items-center rounded-md px-4 py-2 text-sm font-semibold transition-all",
   variants: {
     isSelected: {
-      false:
-        "pressed:text-zinc-700 dark:pressed:text-zinc-200 pressed:bg-zinc-200 dark:pressed:bg-zinc-800 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-200",
-      true: "bg-zinc-800 text-zinc-100 dark:bg-zinc-200 dark:text-zinc-950"
+      false: "",
+      true: "text-zinc-950 dark:text-zinc-50"
     },
     isDisabled: {
-      true: "selected:text-zinc-300 dark:selected:text-zinc-500 selected:bg-zinc-200 dark:selected:bg-zinc-600 text-zinc-200 dark:text-zinc-600"
+      true: "text-zinc-200 selected:bg-zinc-200 selected:text-zinc-300 dark:text-zinc-600 dark:selected:bg-zinc-600 dark:selected:text-zinc-500"
     }
   }
 });
 
 export function Tab(props: TabProps) {
   return (
-    <RACTab
+    <AriaTab
       {...props}
       className={composeRenderProps(props.className, (className, renderProps) =>
         tabProps({ ...renderProps, className })
@@ -83,16 +115,20 @@ export function Tab(props: TabProps) {
 
 const tabPanelStyles = tv({
   extend: focusRing,
-  base: "flex-1 p-4 text-sm text-zinc-900 dark:text-zinc-100"
+  base: "flex-1 rounded-b-lg px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100"
 });
 
 export function TabPanel(props: TabPanelProps) {
   return (
-    <RACTabPanel
+    <AriaTabPanel
       {...props}
       className={composeRenderProps(props.className, (className, renderProps) =>
         tabPanelStyles({ ...renderProps, className })
       )}
-    />
+    >
+      {composeRenderProps(props.children, children => (
+        <>{children}</>
+      ))}
+    </AriaTabPanel>
   );
 }

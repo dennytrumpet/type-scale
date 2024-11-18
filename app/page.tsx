@@ -8,6 +8,8 @@ import { NumberField } from "./ui/NumberField";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Menu, Clipboard } from "lucide-react";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/app/ui/Drawer";
+import { TabList, Tabs, Tab, TabPanel } from "./ui/Tabs";
+import { Collection } from "react-aria-components";
 
 const fonts = [
   { value: "--system-ui", label: "System UI" },
@@ -34,7 +36,7 @@ const FormComponent = ({
 }) => (
   <Form className="relative">
     <Select
-      label="Scale"
+      label="Type scale"
       items={[
         { value: "--minor-second", label: "Minor second (1.067)" },
         { value: "--major-second", label: "Major second (1.125)" },
@@ -53,7 +55,7 @@ const FormComponent = ({
       ]}
       defaultSelectedKey={"--major-third"}
       onSelectionChange={selected => {
-        onChange("font-ratio", `var(${selected})`);
+        onChange("type-scale", `var(${selected})`);
       }}
     >
       {item => <SelectItem id={item.value}>{item.label}</SelectItem>}
@@ -79,16 +81,37 @@ const FormComponent = ({
       {item => <SelectItem id={item.value}>{item.label}</SelectItem>}
     </Select>
     <NumberField
-      label="Base Font Size (px)"
+      label="Min screen size (px)"
+      defaultValue={640}
+      onChange={value => {
+        onChange("min-font", value.toString());
+      }}
+    />
+    <NumberField
+      label="Min font size (px)"
       defaultValue={16}
       onChange={value => {
-        onChange("root-size", value.toString());
+        onChange("min-font", value.toString());
+      }}
+    />
+    <NumberField
+      label="Max screen size (px)"
+      defaultValue={1536}
+      onChange={value => {
+        onChange("max-screen", value.toString());
+      }}
+    />
+    <NumberField
+      label="Max font size (px)"
+      defaultValue={20}
+      onChange={value => {
+        onChange("max-font", value.toString());
       }}
     />
     <NumberField
       label="Base Line Height"
       defaultValue={1.5}
-      step={0.25}
+      step={0.125}
       onChange={value => {
         onChange("leading-base", value.toString());
       }}
@@ -96,7 +119,7 @@ const FormComponent = ({
     <NumberField
       label="Display Line Height"
       defaultValue={1.25}
-      step={0.25}
+      step={0.125}
       onChange={value => {
         onChange("leading-display", value.toString());
       }}
@@ -117,10 +140,13 @@ export default function Home() {
 
   const [css, setCSS] = useState("");
   const [formValues, setFormValues] = useState({
-    "font-ratio": "var(--major-third)",
+    "type-scale": "var(--major-third)",
     "base-family": "var(--system-ui)",
     "display-family": "var(--system-ui)",
-    "root-size": 16,
+    "min-font": 16,
+    "max-font": 20,
+    "min-screen": 640,
+    "max-screen": 1536,
     "leading-base": 1.5,
     "leading-display": 1.25,
     "prose-width": "65ch"
@@ -130,10 +156,17 @@ export default function Home() {
     const scaleDiv = scaleRef?.current;
     const styles = scaleDiv && getComputedStyle(scaleDiv);
     setCSS(`:where(html) {
-  --scale: ${styles?.getPropertyValue("--font-ratio")};
-  --root-size: ${styles?.getPropertyValue("--root-size")};
-  --fluid-size: ${styles?.getPropertyValue("--fluid-size")};
-  --base-size: calc(var(--root-size) / 16);
+  --type-scale: ${styles?.getPropertyValue("--type-scale")};
+  --min-font: ${styles?.getPropertyValue("--min-font")};
+  --max-font: ${styles?.getPropertyValue("--max-font")};
+  --min-screen: ${styles?.getPropertyValue("--min-screen")};
+  --max-screen: ${styles?.getPropertyValue("--max-screen")};
+  --font-difference: calc(var(--max-font) - var(--min-font));
+  --screen-difference: calc(var(--max-screen) - var(--min-screen));
+  --fluid-font-size: calc(
+    var(--min-font) * 1px + (var(--max-font) - var(--min-font)) *
+      ((100vw - var(--min-screen) * 1px) / (var(--max-screen) - var(--min-screen)))
+  );
   --leading-display: ${styles?.getPropertyValue("--leading-display")};
   --leading-base: ${styles?.getPropertyValue("--leading-base")};
   --base-family: ${styles?.getPropertyValue("--base-family")};
@@ -141,18 +174,18 @@ export default function Home() {
   --prose-width: ${scaleDiv?.style.getPropertyValue("--prose-width")};
 
   --text-base: clamp(
-    var(--base-rem) / var(--scale),
-    var(--base-rem) + var(--fluid-base),
-    var(--base-rem) * var(--scale)
+    calc(var(--min-font) * 1px),
+    var(--fluid-font-size),
+    calc(var(--max-font) * 1px)
   );
-  --text-lg: calc(var(--text-base) * var(--scale));
-  --text-xl: calc(var(--text-lg) * var(--scale));
-  --text-2xl: calc(var(--text-xl) * var(--scale));
-  --text-3xl: calc(var(--text-2xl) * var(--scale));
-  --text-4xl: calc(var(--text-3xl) * var(--scale));
-  --text-5xl: calc(var(--text-4xl) * var(--scale));
-  --text-sm: calc(var(--text-base) / var(--scale));
-  --text-xs: calc(var(--text-sm) / var(--scale));
+  --text-lg: calc(var(--text-base) * var(--type-scale));
+  --text-xl: calc(var(--text-lg) * var(--type-scale));
+  --text-2xl: calc(var(--text-xl) * var(--type-scale));
+  --text-3xl: calc(var(--text-2xl) * var(--type-scale));
+  --text-4xl: calc(var(--text-3xl) * var(--type-scale));
+  --text-5xl: calc(var(--text-4xl) * var(--type-scale));
+  --text-sm: calc(var(--text-base) / var(--type-scale));
+  --text-xs: calc(var(--text-sm) / var(--type-scale));
 }
 
 .fluid-typography {
@@ -189,6 +222,95 @@ export default function Home() {
     generateCSS();
   }, [formValues, generateCSS]);
 
+  const tabItems = [
+    {
+      id: 1,
+      label: "Scale",
+      content: (
+        <Prose className="max-w-[--prose-width] md:mx-0">
+          <h1 className="mb-3 mt-0 text-balance font-display text-5xl font-semibold text-zinc-950 dark:text-zinc-50">
+            Fluid Type Scale
+          </h1>
+          <h2 className="mb-3 mt-6 text-balance font-display text-4xl font-semibold text-zinc-950 dark:text-zinc-50">
+            Fluid Type Scale
+          </h2>
+          <h3 className="mb-3 mt-6 text-balance font-display text-3xl font-semibold text-zinc-950 dark:text-zinc-50">
+            Fluid Type Scale
+          </h3>
+          <h4 className="mb-3 mt-6 text-balance font-display text-2xl font-semibold text-zinc-950 dark:text-zinc-50">
+            Fluid Type Scale
+          </h4>
+          <h5 className="mb-3 mt-6 text-balance font-display text-xl font-semibold text-zinc-950 dark:text-zinc-50">
+            Fluid Type Scale
+          </h5>
+          <h6 className="mb-3 mt-6 text-balance font-display text-lg font-semibold text-zinc-950 dark:text-zinc-50">
+            Fluid Type Scale
+          </h6>
+          <p className="mb-4 mt-0 text-pretty font-body text-base">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eros
+            nulla, sollicitudin at ligula ac, lacinia condimentum nisl. Sed
+            sodales ac justo eget euismod. Vivamus dapibus, leo et vestibulum
+            viverra, risus enim lobortis ipsum, vitae mollis odio risus quis
+            augue. Aenean tempus leo vel felis porttitor, vel finibus nulla
+            tristique. Praesent sodales aliquet est id sollicitudin. Quisque
+            facilisis est ut elit dictum, vitae vehicula urna lobortis.
+            Vestibulum consectetur commodo nisi, ut efficitur ex rhoncus ut.
+            Proin tincidunt sollicitudin ipsum, sed posuere ligula euismod id.
+            Etiam laoreet justo ac convallis faucibus.
+          </p>
+          <p className="mb-4 mt-0 text-pretty font-body text-sm text-zinc-600 dark:text-zinc-400">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eros
+            nulla, sollicitudin at ligula ac, lacinia condimentum nisl. Sed
+            sodales ac justo eget euismod. Vivamus dapibus, leo et vestibulum
+            viverra, risus enim lobortis ipsum, vitae mollis odio risus quis
+            augue. Aenean tempus leo vel felis porttitor, vel finibus nulla
+            tristique. Praesent sodales aliquet est id sollicitudin. Quisque
+            facilisis est ut elit dictum, vitae vehicula urna lobortis.
+            Vestibulum consectetur commodo nisi, ut efficitur ex rhoncus ut.
+            Proin tincidunt sollicitudin ipsum, sed posuere ligula euismod id.
+            Etiam laoreet justo ac convallis faucibus.
+          </p>
+          <p className="mb-4 mt-0 text-pretty font-body text-xs text-zinc-500">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eros
+            nulla, sollicitudin at ligula ac, lacinia condimentum nisl. Sed
+            sodales ac justo eget euismod. Vivamus dapibus, leo et vestibulum
+            viverra, risus enim lobortis ipsum, vitae mollis odio risus quis
+            augue. Aenean tempus leo vel felis porttitor, vel finibus nulla
+            tristique. Praesent sodales aliquet est id sollicitudin. Quisque
+            facilisis est ut elit dictum, vitae vehicula urna lobortis.
+            Vestibulum consectetur commodo nisi, ut efficitur ex rhoncus ut.
+            Proin tincidunt sollicitudin ipsum, sed posuere ligula euismod id.
+            Etiam laoreet justo ac convallis faucibus.
+          </p>
+        </Prose>
+      )
+    },
+    {
+      id: 2,
+      label: "Code",
+      content: (
+        <>
+          <Button
+            className={
+              "absolute right-0 top-0 z-20 m-2 aspect-square border-0 bg-transparent px-3 py-0 text-zinc-400 hover:bg-zinc-950/10 dark:bg-transparent dark:text-zinc-600 hover:dark:bg-zinc-100/10 dark:hover:text-zinc-400"
+            }
+            onPress={() => {
+              navigator.clipboard.writeText(css);
+            }}
+          >
+            <Clipboard size={14} />
+          </Button>
+          <code className="relative text-xs text-zinc-600 shadow-inner dark:text-zinc-400">
+            <pre
+              className="overflow-auto whitespace-pre"
+              dangerouslySetInnerHTML={{ __html: css }}
+            />
+          </code>
+        </>
+      )
+    }
+  ];
+
   return (
     <>
       <header className="relative border-b border-zinc-950/10 dark:border-zinc-100/10">
@@ -212,86 +334,19 @@ export default function Home() {
                   }}
                 />
               </div>
-              <code className="relative rounded-lg border border-solid border-zinc-950/10 bg-zinc-50 px-4 py-3 text-xs text-zinc-600 shadow-inner dark:border-zinc-100/10 dark:bg-zinc-900 dark:text-zinc-400">
-                <Button
-                  className={
-                    "absolute right-0 top-0 m-2 aspect-square border-0 bg-transparent px-2 py-0 text-zinc-400 hover:bg-zinc-950/10 dark:bg-transparent dark:text-zinc-600 hover:dark:bg-zinc-100/10 dark:hover:text-zinc-400"
-                  }
-                  onPress={() => {
-                    navigator.clipboard.writeText(css);
-                  }}
-                >
-                  <Clipboard size={16} />
-                </Button>
-                <pre
-                  className="overflow-auto whitespace-pre"
-                  dangerouslySetInnerHTML={{ __html: css }}
-                />
-              </code>
             </div>
-            <div className="max-w-full overflow-x-auto rounded-lg border border-zinc-950/10 p-base md:order-1 dark:border-zinc-100/10">
-              <Prose
-                className="type-scale max-w-[--prose-width] md:mx-0"
-                ref={scaleRef}
-              >
-                <h1 className="mb-base-0.5 mt-base text-balance font-display text-5xl text-zinc-800 dark:text-zinc-200">
-                  Fluid Type Scale
-                </h1>
-                <h2 className="mb-base-0.5 mt-base text-balance font-display text-4xl text-zinc-800 dark:text-zinc-200">
-                  Fluid Type Scale
-                </h2>
-                <h3 className="mb-base-0.5 mt-base text-balance font-display text-3xl text-zinc-800 dark:text-zinc-200">
-                  Fluid Type Scale
-                </h3>
-                <h4 className="mb-base-0.5 mt-base text-balance font-display text-2xl text-zinc-800 dark:text-zinc-200">
-                  Fluid Type Scale
-                </h4>
-                <h5 className="mb-base-0.5 mt-base text-balance font-display text-xl text-zinc-800 dark:text-zinc-200">
-                  Fluid Type Scale
-                </h5>
-                <h6 className="mb-base-0.5 mt-base text-balance font-display text-lg text-zinc-800 dark:text-zinc-200">
-                  Fluid Type Scale
-                </h6>
-                <p className="mb-base mt-0 text-pretty font-body text-base">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-                  eros nulla, sollicitudin at ligula ac, lacinia condimentum
-                  nisl. Sed sodales ac justo eget euismod. Vivamus dapibus, leo
-                  et vestibulum viverra, risus enim lobortis ipsum, vitae mollis
-                  odio risus quis augue. Aenean tempus leo vel felis porttitor,
-                  vel finibus nulla tristique. Praesent sodales aliquet est id
-                  sollicitudin. Quisque facilisis est ut elit dictum, vitae
-                  vehicula urna lobortis. Vestibulum consectetur commodo nisi,
-                  ut efficitur ex rhoncus ut. Proin tincidunt sollicitudin
-                  ipsum, sed posuere ligula euismod id. Etiam laoreet justo ac
-                  convallis faucibus.
-                </p>
-                <p className="mb-base mt-0 text-pretty font-body text-sm">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-                  eros nulla, sollicitudin at ligula ac, lacinia condimentum
-                  nisl. Sed sodales ac justo eget euismod. Vivamus dapibus, leo
-                  et vestibulum viverra, risus enim lobortis ipsum, vitae mollis
-                  odio risus quis augue. Aenean tempus leo vel felis porttitor,
-                  vel finibus nulla tristique. Praesent sodales aliquet est id
-                  sollicitudin. Quisque facilisis est ut elit dictum, vitae
-                  vehicula urna lobortis. Vestibulum consectetur commodo nisi,
-                  ut efficitur ex rhoncus ut. Proin tincidunt sollicitudin
-                  ipsum, sed posuere ligula euismod id. Etiam laoreet justo ac
-                  convallis faucibus.
-                </p>
-                <p className="mb-base mt-0 text-pretty font-body text-xs">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-                  eros nulla, sollicitudin at ligula ac, lacinia condimentum
-                  nisl. Sed sodales ac justo eget euismod. Vivamus dapibus, leo
-                  et vestibulum viverra, risus enim lobortis ipsum, vitae mollis
-                  odio risus quis augue. Aenean tempus leo vel felis porttitor,
-                  vel finibus nulla tristique. Praesent sodales aliquet est id
-                  sollicitudin. Quisque facilisis est ut elit dictum, vitae
-                  vehicula urna lobortis. Vestibulum consectetur commodo nisi,
-                  ut efficitur ex rhoncus ut. Proin tincidunt sollicitudin
-                  ipsum, sed posuere ligula euismod id. Etiam laoreet justo ac
-                  convallis faucibus.
-                </p>
-              </Prose>
+            <div
+              className="type-scale max-w-full overflow-x-auto"
+              ref={scaleRef}
+            >
+              <Tabs>
+                <TabList items={tabItems}>
+                  {item => <Tab>{item.label}</Tab>}
+                </TabList>
+                <Collection items={tabItems}>
+                  {item => <TabPanel>{item.content}</TabPanel>}
+                </Collection>
+              </Tabs>
             </div>
           </div>
         </Container>
@@ -299,7 +354,8 @@ export default function Home() {
           <Drawer>
             <DrawerTrigger
               className={button({
-                variant: "primary"
+                variant: "primary",
+                className: "aspect-square px-3 py-0"
               })}
             >
               <Menu />

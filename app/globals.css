@@ -41,33 +41,34 @@
   --handwritten: "Segoe Print", "Bradley Hand", Chilanka, TSCu_Comic, casual,
     cursive;
 
-  --font-ratio: 1.25;
-  --root-size: 16;
-  --fluid-size: 1vi;
-  --base-size: calc(var(--root-size) / 16);
+  --type-scale: var(--_type-scale, 1.25);
+  --min-font: var(--_min-font, 16);
+  --max-font: var(--_max-font, calc(var(--min-font) * var(--type-scale)));
+  --min-screen: var(--_min-screen, 640);
+  --max-screen: var(--_max-screen, 1536);
+  --font-difference: calc(var(--max-font) - var(--min-font));
+  --screen-difference: calc(var(--max-screen) - var(--min-screen));
+  --fluid-font-size: calc(
+    var(--min-font) * 1px + (100vw - var(--min-screen) * 1px) *
+      var(--font-difference) / var(--screen-difference)
+  );
   --leading-display: 1.25;
   --leading-base: 1.5;
   --base-family: var(--system-ui);
   --display-family: var(--system-ui);
   --code-family: var(--code);
 
-  --fluid-base: calc(var(--fluid-size) * (var(--font-ratio) - 1));
-
-  --base-rem: var(--base-size) * 1rem;
-
-  /* Inspired by https://modern-fluid-typography.vercel.app/ */
-  /* Inspired by https://type-scale.com/ */
-  --base-fluid: clamp(
-    var(--base-rem) / var(--font-ratio),
-    var(--base-rem) + var(--fluid-base),
-    var(--base-rem) * var(--font-ratio)
+  --fluid-base: clamp(
+    calc(var(--min-font) * 1px),
+    var(--fluid-font-size),
+    calc(var(--max-font) * 1px)
   );
-  --lg-fluid: calc(var(--base-fluid) * var(--font-ratio));
-  --xl-fluid: calc(var(--lg-fluid) * var(--font-ratio));
-  --two-xl-fluid: calc(var(--xl-fluid) * var(--font-ratio));
-  --three-xl-fluid: calc(var(--two-xl-fluid) * var(--font-ratio));
-  --four-xl-fluid: calc(var(--three-xl-fluid) * var(--font-ratio));
-  --five-xl-fluid: calc(var(--four-xl-fluid) * var(--font-ratio));
-  --sm-fluid: calc(var(--base-fluid) / var(--font-ratio));
-  --xs-fluid: calc(var(--sm-fluid) / var(--font-ratio));
+  --fluid-lg: calc(var(--fluid-base) * var(--type-scale));
+  --fluid-xl: calc(var(--fluid-lg) * var(--type-scale));
+  --fluid-2xl: calc(var(--fluid-xl) * var(--type-scale));
+  --fluid-3xl: calc(var(--fluid-2xl) * var(--type-scale));
+  --fluid-4xl: calc(var(--fluid-3xl) * var(--type-scale));
+  --fluid-5xl: calc(var(--fluid-4xl) * var(--type-scale));
+  --fluid-sm: calc(var(--fluid-base) / var(--type-scale));
+  --fluid-xs: calc(var(--fluid-sm) / var(--type-scale));
 }
