@@ -39,7 +39,7 @@ const columnStyles = tv({
 
 const resizerStyles = tv({
   extend: focusRing,
-  base: "resizing:bg-zinc-600 resizing:w-[2px] resizing:pl-[7px] box-content h-5 w-px translate-x-[8px] cursor-col-resize rounded bg-zinc-400 bg-clip-content px-[8px] py-1 -outline-offset-2 dark:bg-zinc-500"
+  base: "box-content h-5 w-px translate-x-[8px] cursor-col-resize rounded bg-zinc-400 bg-clip-content px-[8px] py-1 -outline-offset-2 resizing:w-[2px] resizing:bg-zinc-600 resizing:pl-[7px] dark:bg-zinc-500"
 });
 
 export function Column(props: ColumnProps) {
@@ -83,12 +83,14 @@ export function Column(props: ColumnProps) {
 export function TableHeader<T extends object>(props: TableHeaderProps<T>) {
   let { selectionBehavior, selectionMode, allowsDragging } = useTableOptions();
 
+  const className = props.className as string;
+
   return (
     <AriaTableHeader
       {...props}
       className={twMerge(
         "sticky top-0 z-10 rounded-t-lg border-b bg-zinc-100/60 backdrop-blur-md supports-[-moz-appearance:none]:bg-zinc-100 dark:border-b-zinc-700 dark:bg-zinc-700/60 dark:supports-[-moz-appearance:none]:bg-zinc-700",
-        props.className
+        className
       )}
     >
       {/* Add extra columns for drag and drop and selection. */}
@@ -109,7 +111,7 @@ export function TableHeader<T extends object>(props: TableHeaderProps<T>) {
 
 const rowStyles = tv({
   extend: focusRing,
-  base: "group/row selected:bg-zinc-100 selected:hover:bg-zinc-200 dark:selected:bg-zinc-700/30 dark:selected:hover:bg-zinc-700/40 relative cursor-default select-none text-sm text-zinc-900 -outline-offset-2 hover:bg-zinc-100 disabled:text-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-700/60 dark:disabled:text-zinc-600"
+  base: "group/row relative cursor-default select-none text-sm text-zinc-900 -outline-offset-2 hover:bg-zinc-100 selected:bg-zinc-100 selected:hover:bg-zinc-200 disabled:text-zinc-300 dark:text-zinc-200 dark:hover:bg-zinc-700/60 dark:selected:bg-zinc-700/30 dark:selected:hover:bg-zinc-700/40 dark:disabled:text-zinc-600"
 });
 
 export function Row<T extends object>({
@@ -139,7 +141,7 @@ export function Row<T extends object>({
 
 const cellStyles = tv({
   extend: focusRing,
-  base: "group-selected/row:border-[--selected-border] truncate border-b p-2 -outline-offset-2 [--selected-border:theme(colors.blue.200)] group-last/row:border-b-0 dark:border-b-zinc-700 dark:[--selected-border:theme(colors.blue.900)] [:has(+[data-selected])_&]:border-[--selected-border]"
+  base: "truncate border-b p-2 -outline-offset-2 [--selected-border:theme(colors.blue.200)] group-last/row:border-b-0 group-selected/row:border-[--selected-border] dark:border-b-zinc-700 dark:[--selected-border:theme(colors.blue.900)] [:has(+[data-selected])_&]:border-[--selected-border]"
 });
 
 export function Cell(props: CellProps) {

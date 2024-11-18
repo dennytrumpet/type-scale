@@ -15,6 +15,17 @@ import { tv } from "tailwind-variants";
 import { focusRing } from "./utils";
 import { motion, AnimatePresence } from "framer-motion";
 
+interface DOMRect {
+  width: number;
+  height: number;
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+  x: number;
+  y: number;
+}
+
 const tabsStyles = tv({
   base: "relative flex gap-3 rounded-lg border border-solid border-zinc-950/10 bg-zinc-50 p-1 dark:border-zinc-50/10 dark:bg-zinc-900",
   variants: {
@@ -49,7 +60,7 @@ const tabListStyles = tv({
 export function TabList<T extends object>(props: TabListProps<T>) {
   const state = useContext(TabListStateContext);
   const tabListRef = useRef<HTMLDivElement>(null);
-  const TabListVariants = ({ className }) =>
+  const TabListVariants = ({ className }: TabListProps<T>) =>
     composeRenderProps(className, (className, renderProps) => {
       return tabListStyles({ ...renderProps, className });
     });
@@ -57,10 +68,14 @@ export function TabList<T extends object>(props: TabListProps<T>) {
     if (!state) return {};
     const { selectedKey } = state;
     let tabs = tabListRef && tabListRef.current?.querySelectorAll("[role=tab]");
+    const selectedIndex = Array.from(tabs || []).findIndex(
+      tab => tab.getAttribute("data-key") === String(selectedKey)
+    );
     const selectedRect =
-      (tabs && selectedKey && tabs[selectedKey - 1]?.getBoundingClientRect()) ||
-      {};
-    const tabListRect = tabListRef.current?.getBoundingClientRect() || {};
+      (tabs && selectedKey && tabs[selectedIndex]?.getBoundingClientRect()) ||
+      ({} as DOMRect);
+    const tabListRect =
+      tabListRef.current?.getBoundingClientRect() || ({} as DOMRect);
     return {
       width: `${selectedRect.width}px` || "135.42px",
       height: `${selectedRect.height}px` || "36px",
