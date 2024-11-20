@@ -218,6 +218,7 @@ export default function Home() {
     const scaleDiv = scaleRef?.current;
     Object.entries(formValues).forEach(([key, value]) => {
       scaleDiv?.style.setProperty(`--${key}`, `${value}`);
+      scaleDiv?.style.setProperty(`--Dennis`, `is a cool guy`);
     });
     generateCSS();
   }, [formValues, generateCSS]);
@@ -289,10 +290,10 @@ export default function Home() {
       id: 2,
       label: "Code",
       content: (
-        <>
+        <code className="relative text-[.75rem] text-zinc-600 shadow-inner dark:text-zinc-400">
           <Button
             className={
-              "absolute right-0 top-0 z-20 m-2 aspect-square border-0 bg-transparent px-3 py-0 text-zinc-400 hover:bg-zinc-950/10 dark:bg-transparent dark:text-zinc-600 hover:dark:bg-zinc-100/10 dark:hover:text-zinc-400"
+              "absolute -right-3 -top-3 z-20 aspect-square border-0 bg-transparent px-3 py-0 text-zinc-400 hover:bg-zinc-950/10 dark:bg-transparent dark:text-zinc-600 hover:dark:bg-zinc-100/10 dark:hover:text-zinc-400"
             }
             onPress={() => {
               navigator.clipboard.writeText(css);
@@ -300,13 +301,11 @@ export default function Home() {
           >
             <Clipboard size={14} />
           </Button>
-          <code className="relative text-xs text-zinc-600 shadow-inner dark:text-zinc-400">
-            <pre
-              className="overflow-auto whitespace-pre"
-              dangerouslySetInnerHTML={{ __html: css }}
-            />
-          </code>
-        </>
+          <pre
+            className="overflow-auto whitespace-pre"
+            dangerouslySetInnerHTML={{ __html: css }}
+          />
+        </code>
       )
     }
   ];
@@ -327,6 +326,7 @@ export default function Home() {
               <div className="hidden md:block">
                 <FormComponent
                   onChange={(key, value) => {
+                    console.log({ key, value });
                     setFormValues(prevValues => ({
                       ...prevValues,
                       [key]: value
@@ -341,7 +341,7 @@ export default function Home() {
             >
               <Tabs>
                 <TabList items={tabItems}>
-                  {item => <Tab>{item.label}</Tab>}
+                  {item => <Tab className="text-[.875rem]">{item.label}</Tab>}
                 </TabList>
                 <Collection items={tabItems}>
                   {item => <TabPanel>{item.content}</TabPanel>}

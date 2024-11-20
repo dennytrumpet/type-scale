@@ -27,7 +27,7 @@ interface DOMRect {
 }
 
 const tabsStyles = tv({
-  base: "relative flex gap-3 rounded-lg border border-solid border-zinc-950/10 bg-zinc-50 p-1 dark:border-zinc-50/10 dark:bg-zinc-900",
+  base: "relative flex gap-3 rounded-lg",
   variants: {
     orientation: {
       horizontal: "flex-col",
@@ -85,7 +85,10 @@ export function TabList<T extends object>(props: TabListProps<T>) {
     };
   }, [state]);
   return (
-    <div className="group relative rounded-lg" ref={tabListRef}>
+    <div
+      className="group relative rounded-lg bg-zinc-50 p-1 dark:bg-zinc-900"
+      ref={tabListRef}
+    >
       <AriaTabList
         {...props}
         className={TabListVariants({ className: props.className })}
@@ -130,7 +133,7 @@ export function Tab(props: TabProps) {
 
 const tabPanelStyles = tv({
   extend: focusRing,
-  base: "flex-1 rounded-b-lg px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100"
+  base: "flex-1 rounded-lg border border-solid border-zinc-950/10 p-6 text-sm dark:border-zinc-50/10"
 });
 
 export function TabPanel(props: TabPanelProps) {
